@@ -3,14 +3,20 @@ CySec knowledgebase verkefni 1
 
 ## 3.1 Collaborative Lecture Notes
 
-### Lecture 1:
+## Lecture 1:
 Attack Surface: er heildin af mögulegum veikleikum sem er hægt að gera árás á kerfið, hvort það sé Digital, Physical eða mannlegir veikleikar.
 CIA skipti markmiðum tölvuöryggis í 3 megin markmið sem voru Confidentiality, Integrity og Availability.
 - Confidentiality: Preventing unauthorized disclosure.
 - Integrity: Preventing unauthorized modification or forgery.
 - Availability: Keeping systems and data usable when needed.
+
+Það eru líka margar leiðir til að takmarka Attack surface sem er eiginlega bara að fara í gegnum þesar reglur.
+
 Cyber Defence Snýst um að Koma í veg fyrir árásir með því að greina hana, bregðast við og að takmarka skaðann (Attack surface reduction). Maður getur gert það með því að sjá fyrir árásinar og finna veikleika í kerfinu áður en utanaðkomadi aðillar finna þá.
-Design Principles: mikilvæg design principles eru til dæmis Least privilege: þar sem notandinn fær aðeins þær heimildir sem hann þarf, Fail-safe defaults: banna sjálfgefið nema annað er tekið fram og svo defence in depth: sem er að betrumbæta vörnina sína yfir heildina t.d. firewall og Lykilorð.
+
+Design Principles: mikilvæg design principles eru til dæmis Least privilege: þar sem notandinn fær aðeins þær heimildir sem hann þarf, 
+
+Fail-safe defaults: banna sjálfgefið nema annað er tekið fram og svo defence in depth: sem er að betrumbæta vörnina sína yfir heildina t.d. firewall og Lykilorð.
 
 Það eru nokkrar tegundir af Malware Mechanisms:
 - Worm: forrit sem dreifir sér á milli tölva.
@@ -19,10 +25,32 @@ Design Principles: mikilvæg design principles eru til dæmis Least privilege: �
 - Persistance: Forrit sem haldast í vélinni þrátt fyrir endurræsingu á vélinni
 - Command and control: Forrit sem leyfir utanaðkomandi stýringu á vélinni með fjarstjórnun.
 
+##### Categories of computer security threats:
+- Unauthorised access
+- Unauthorised modification
+- Unauthorised disclosure
+- Denial of Authorized Access
+- Forgery
+- Repudiation - where the integrity of an asset can be
+- disputed
+- Spoofing - masquerading as a legitimate entity
+
+###### CVE Common Vulnerabilities and Exposures:
+- CVE(Common Vulnerabilities and Exposures) Skrá yfir opinber þekkt vulnerability
+- CVSS(Common Vulnerability Scoring System) alvarleikamat á bilinu 0-10
+
+ ## Gæti gert eitthvað um þekktar árásir
+
+
+## Lecture 2:
+
+### Virtualization (Sýndarvæðing):
 
 
 
-### Lecture 2:
+
+
+
 
 ### Lecture 3:
 
