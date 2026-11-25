@@ -45,11 +45,40 @@ Fail-safe defaults: banna sjálfgefið nema annað er tekið fram og svo defence
 ## Lecture 2:
 
 ### Virtualization (Sýndarvæðing):
+Virtualization snýst um að nota hugbúnað til að skipta Vélinni upp í nokkrar sýndarvélar, operating systems, processes eða containers.
 
+Maður ætti að virtualisa af nokkrum ástæðum:
+1. Isolation: takmarkar áhrif crashes og árása
+2. Sandboxing: prófa óþekktann hugbúnað í einangruðu umhverfi.
+3. Multi tenancy: ólýkir notendur geta notað vélina án þess að hafa aðgang að kerfum hvor annara.
+4. kostar minna og nýtir vélbúnaðinn betur
 
+### Terminology:
+- Host machine: Vélin sem er að keyra Virtualisationið
+- Host OS: kerfið sett upp á Host machine
+- Guest Machine: Vélin sem er sett upp á host
+- Guest Host: Stýrikerfið sem er inni í vélinni
+- Hypervisor(VMM): Hugbúnaður sem býr til, keyrir og stjórnar VM
+- Orchestration: Sjálfvirk uppsetning, skölun og nettenging containera
 
+Það eru til 2 tegundir af Hypervisor:
+1. Bare-metal Hypervisor: Keyrir beint á vélbúnaði
+2. Hosted Hypervisor: keyrir application á Host OS
 
+### Virtualization methods:
+- Full Virtualization: Guest OS keyrir beint á sýndarvélbúnaði
+- Hardware assisted Virtualization: Nýtir Cpu-eiginleika til að hraða virtualization.
+- Paravirtualization: Guest OS notar sérstaka drivers eða Hypercalls til að vinna með hypervisor... það getur samt bætt við afköst og dregið r compatability
+- os-level virtualization: Containers deila sama kernel en hafa einangrað user space
+- Emulation: Hermir eftir Vélbúnaði og instruction set. Getur jafnvel hermt eftir öðru CPU arcitecture.
 
+|
+|
+|
+|
+|
+|
+|
 
 
 ### Lecture 3:
