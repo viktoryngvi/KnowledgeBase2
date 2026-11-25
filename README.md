@@ -4,6 +4,7 @@ CySec knowledgebase verkefni 1
 ## 3.1 Collaborative Lecture Notes
 
 ### Lecture 1:
+Attack Surface: er heildin af mögulegum veikleikum 
 
 ### Lecture 2:
 
