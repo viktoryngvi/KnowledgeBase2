@@ -98,7 +98,23 @@ sameigilegur vélbúnaður er CPU cache, branch predators, vector units og memmo
 - minnsta öryggi: Containers
 - emulation er þanna einhverstaðar. getur verið byggt upp á öryggi en er það oftast ekki
 
+### Migating security risks:
+- Patch managemet: Halda Supervisors guest og containers uppfærðum
+- Least privilege: Takamarka aðganginn.
+- Secure configuration: Slökkva á ónotuðum ports og eiginleikum
+- Network Segmentation: Einangra management, guest og host
+- Secure images: Nota áreiðanleg images og kanna eftir veikleikum
+- Monitoring og logging: Greina grugguga hegðun
 
+ ### What is a container:
+- Filesystem: Hvaða Skrár container, image og writeable layer
+- Network: Network interfaces, IP og ports
+- Users: User og Group ID
+- Control Groups: takmarka auðlindanotkun
+
+### SSH og Key pairs:
+- SSH veitir dulkóðaða fjartengingu og shell Public key (.pub) má deila, private key geymist hjá þér og á aldrei að
+afhenda öðrum. Server sannreynir að þú sért með réttan private key með public key.
 
 
 ### Lecture 3:
