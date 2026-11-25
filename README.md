@@ -72,13 +72,33 @@ Maður ætti að virtualisa af nokkrum ástæðum:
 - os-level virtualization: Containers deila sama kernel en hafa einangrað user space
 - Emulation: Hermir eftir Vélbúnaði og instruction set. Getur jafnvel hermt eftir öðru CPU arcitecture.
 
-|
-|
-|
-|
-|
-|
-|
+| Eiginleikar| VM           | Containers |
+|------------|--------------|------------|
+|Kernel      | Eigin kernel | Sameiginlegur kernel |
+|Stýrikerfi  | Eigin guest OS | Deilir kernel með host |
+|auðlindanotkun| Meiri      | Minni      |
+|Ræsing      |Hægari        | Hraðari    |
+|einangrun   |Yfirleitt sterkari | yfirleitt veikari |
+
+### Virtualization security Challanges:
+- VM/Container Escape: ef eitt process kemst úr VM yfir í host
+- Hypervisor vulnerabilities: Veikleiki í sameiginlegu lagi getur haft áhrif á allar VM
+- Resourse exaustion: Einn í VM notar of mikið af sameiginlegum vélarkrafti
+- Management plane: árás á host VM´s
+- insecure immages: immage inniheldur veikleika
+
+### Side channel Attacks:
+Aflar upplýsingum óbeint með því að mæla hegðun sameiginlegs vélbúnaðar t.d cache timing.
+sameigilegur vélbúnaður er CPU cache, branch predators, vector units og memmory controllers.
+
+### Security by method:
+- mest öryggi: Physical machine
+- minna öryggi: Type 1 Hypervisor
+- enn minna öryggi: Type 2 Hypervisor
+- minnsta öryggi: Containers
+- emulation er þanna einhverstaðar. getur verið byggt upp á öryggi en er það oftast ekki
+
+
 
 
 ### Lecture 3:
