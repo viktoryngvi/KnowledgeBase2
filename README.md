@@ -3,14 +3,20 @@ CySec knowledgebase verkefni 1
 
 ## 3.1 Collaborative Lecture Notes
 
-### Lecture 1:
+## Lecture 1:
 Attack Surface: er heildin af mögulegum veikleikum sem er hægt að gera árás á kerfið, hvort það sé Digital, Physical eða mannlegir veikleikar.
 CIA skipti markmiðum tölvuöryggis í 3 megin markmið sem voru Confidentiality, Integrity og Availability.
 - Confidentiality: Preventing unauthorized disclosure.
 - Integrity: Preventing unauthorized modification or forgery.
 - Availability: Keeping systems and data usable when needed.
+
+Það eru líka margar leiðir til að takmarka Attack surface sem er eiginlega bara að fara í gegnum þesar reglur.
+
 Cyber Defence Snýst um að Koma í veg fyrir árásir með því að greina hana, bregðast við og að takmarka skaðann (Attack surface reduction). Maður getur gert það með því að sjá fyrir árásinar og finna veikleika í kerfinu áður en utanaðkomadi aðillar finna þá.
-Design Principles: mikilvæg design principles eru til dæmis Least privilege: þar sem notandinn fær aðeins þær heimildir sem hann þarf, Fail-safe defaults: banna sjálfgefið nema annað er tekið fram og svo defence in depth: sem er að betrumbæta vörnina sína yfir heildina t.d. firewall og Lykilorð.
+
+Design Principles: mikilvæg design principles eru til dæmis Least privilege: þar sem notandinn fær aðeins þær heimildir sem hann þarf, 
+
+Fail-safe defaults: banna sjálfgefið nema annað er tekið fram og svo defence in depth: sem er að betrumbæta vörnina sína yfir heildina t.d. firewall og Lykilorð.
 
 Það eru nokkrar tegundir af Malware Mechanisms:
 - Worm: forrit sem dreifir sér á milli tölva.
@@ -19,12 +25,115 @@ Design Principles: mikilvæg design principles eru til dæmis Least privilege: �
 - Persistance: Forrit sem haldast í vélinni þrátt fyrir endurræsingu á vélinni
 - Command and control: Forrit sem leyfir utanaðkomandi stýringu á vélinni með fjarstjórnun.
 
+##### Categories of computer security threats:
+- Unauthorised access
+- Unauthorised modification
+- Unauthorised disclosure
+- Denial of Authorized Access
+- Forgery
+- Repudiation - where the integrity of an asset can be
+- disputed
+- Spoofing - masquerading as a legitimate entity
+
+###### CVE Common Vulnerabilities and Exposures:
+- CVE(Common Vulnerabilities and Exposures) Skrá yfir opinber þekkt vulnerability
+- CVSS(Common Vulnerability Scoring System) alvarleikamat á bilinu 0-10
+
+ ## Gæti gert eitthvað um þekktar árásir
+
+
+## Lecture 2:
+
+### Virtualization (Sýndarvæðing):
+Virtualization snýst um að nota hugbúnað til að skipta Vélinni upp í nokkrar sýndarvélar, operating systems, processes eða containers.
+
+Maður ætti að virtualisa af nokkrum ástæðum:
+1. Isolation: takmarkar áhrif crashes og árása
+2. Sandboxing: prófa óþekktann hugbúnað í einangruðu umhverfi.
+3. Multi tenancy: ólýkir notendur geta notað vélina án þess að hafa aðgang að kerfum hvor annara.
+4. kostar minna og nýtir vélbúnaðinn betur
+
+### Terminology:
+- Host machine: Vélin sem er að keyra Virtualisationið
+- Host OS: kerfið sett upp á Host machine
+- Guest Machine: Vélin sem er sett upp á host
+- Guest Host: Stýrikerfið sem er inni í vélinni
+- Hypervisor(VMM): Hugbúnaður sem býr til, keyrir og stjórnar VM
+- Orchestration: Sjálfvirk uppsetning, skölun og nettenging containera
+
+Það eru til 2 tegundir af Hypervisor:
+1. Bare-metal Hypervisor: Keyrir beint á vélbúnaði
+2. Hosted Hypervisor: keyrir application á Host OS
+
+### Virtualization methods:
+- Full Virtualization: Guest OS keyrir beint á sýndarvélbúnaði
+- Hardware assisted Virtualization: Nýtir Cpu-eiginleika til að hraða virtualization.
+- Paravirtualization: Guest OS notar sérstaka drivers eða Hypercalls til að vinna með hypervisor... það getur samt bætt við afköst og dregið r compatability
+- os-level virtualization: Containers deila sama kernel en hafa einangrað user space
+- Emulation: Hermir eftir Vélbúnaði og instruction set. Getur jafnvel hermt eftir öðru CPU arcitecture.
+
+| Eiginleikar| VM           | Containers |
+|------------|--------------|------------|
+|Kernel      | Eigin kernel | Sameiginlegur kernel |
+|Stýrikerfi  | Eigin guest OS | Deilir kernel með host |
+|auðlindanotkun| Meiri      | Minni      |
+|Ræsing      |Hægari        | Hraðari    |
+|einangrun   |Yfirleitt sterkari | yfirleitt veikari |
+
+### Virtualization security Challanges:
+- VM/Container Escape: ef eitt process kemst úr VM yfir í host
+- Hypervisor vulnerabilities: Veikleiki í sameiginlegu lagi getur haft áhrif á allar VM
+- Resourse exaustion: Einn í VM notar of mikið af sameiginlegum vélarkrafti
+- Management plane: árás á host VM´s
+- insecure immages: immage inniheldur veikleika
+
+### Side channel Attacks:
+Aflar upplýsingum óbeint með því að mæla hegðun sameiginlegs vélbúnaðar t.d cache timing.
+sameigilegur vélbúnaður er CPU cache, branch predators, vector units og memmory controllers.
+
+### Security by method:
+- mest öryggi: Physical machine
+- minna öryggi: Type 1 Hypervisor
+- enn minna öryggi: Type 2 Hypervisor
+- minnsta öryggi: Containers
+- emulation er þanna einhverstaðar. getur verið byggt upp á öryggi en er það oftast ekki
+
+### Migating security risks:
+- Patch managemet: Halda Supervisors guest og containers uppfærðum
+- Least privilege: Takamarka aðganginn.
+- Secure configuration: Slökkva á ónotuðum ports og eiginleikum
+- Network Segmentation: Einangra management, guest og host
+- Secure images: Nota áreiðanleg images og kanna eftir veikleikum
+- Monitoring og logging: Greina grugguga hegðun
+
+ ### What is a container:
+- Filesystem: Hvaða Skrár container, image og writeable layer
+- Network: Network interfaces, IP og ports
+- Users: User og Group ID
+- Control Groups: takmarka auðlindanotkun
+
+### SSH og Key pairs:
+- SSH veitir dulkóðaða fjartengingu og shell Public key (.pub) má deila, private key geymist hjá þér og á aldrei að
+afhenda öðrum. Server sannreynir að þú sért með réttan private key með public key.
+
+
+## Lecture 3:
+
+### Command line:
+
+### Why you should use the command line:
+- Composition: getur tengt margar skipanir saman
+- Completeness: aðgangur að möguleikum sem að GUI sýnir ekki
+- Repeatability: Endurtakanlegar aðgerðir með scripts
+- Remote access: maður getur stjórnað netþjóninum í gegnum SSH
+- og það er mjög repeatable
 
 
 
-### Lecture 2:
 
-### Lecture 3:
+
+
+
 
 ## 3.2 Terminology Glossary
 
