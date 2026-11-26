@@ -117,7 +117,23 @@ sameigilegur vélbúnaður er CPU cache, branch predators, vector units og memmo
 afhenda öðrum. Server sannreynir að þú sért með réttan private key með public key.
 
 
-### Lecture 3:
+## Lecture 3:
+
+### Command line:
+
+### Why you should use the command line:
+- Composition: getur tengt margar skipanir saman
+- Completeness: aðgangur að möguleikum sem að GUI sýnir ekki
+- Repeatability: Endurtakanlegar aðgerðir með scripts
+- Remote access: maður getur stjórnað netþjóninum í gegnum SSH
+- og það er mjög repeatable
+
+
+
+
+
+
+
 
 ## 3.2 Terminology Glossary
 
