@@ -1,0 +1,290 @@
+program vs process
+program: static instructions on disk
+process: A program i execution (loaded into RAM
+
+---------------
+
+memory management
+needs to be shared between proceses and hidden from proceses
+programs see a vrtual memory index, and the os maps it to the physical memory
+restricted mode: maps to virtual memory, x mode meps to physical os
+each program believes it has access to the whole memory
+process A cannot access process B physical memory pages due to mapping to virtual
+virtual address space can be way larger than the physical ram, so many addresses are not mapped to anything (segfault when accessing mmory with no mapping)
+a user process cannot access kernel memory
+
+------------------
+
+I/O
+millions of times slower than a cpu cycle (should not use busy waiting to not hog the cpu)
+user request IO (system call)
+OS puts the process in a "waiting" state and yields the cpu to another process
+when hardware is ready, it sends an interrupt to the cpu
+cpu jumps to the interrupt service routine, (pauses what it was doing and immediately switches)
+the OS moves the original process back to the ready queue
+
+if nothing arrives from IO then some condition (timeout) will wake the process
+
+-----------------------
+
+file systems
+physical: hard drives are made up of millions of generic blocks (sectors)
+ligical: the OS creates the concept of files, directories, and paths
+os
+mapping filenames to physical block addresses.
+managing metadata (permissions, )
+
+
+---------------------------
+
+protection
+hardware architectures like x86 support privilage levels
+IMMAGE
+Ring 0 kernel mode
+full access to all hardware instructions
+can manipulate memory
+
+Ring 3 user mode
+restricted subset of instruction
+cannot directly access hardware
+
+context switching:
+if a user process tries to access privilaged instructions it tries to hand controll to the os, which determines if it will execute the command or not.
+a violation usually kills the process
+
+--------------------------------------
+-------------------------------------
+
+Common opperating systems
+
+unix / linux
+hardware, sockets, and data are accessed via file descriptors
+focus on small, modular tools piped together
+
+"linux" is tecnically just the kernel
+drivers run in kernel space so are vulnerable to exploits.
+
+linux distro: ernel, gnu tools + package manager + desktop
+gnu: gnu not unix
+
+macOS: built on top of open source Darwin, but is not open source
+but is a unix os
+
+everything is a file, so most things can be handled with read, write
+
+windows: uses a centralized hierarchical database (registry) binary file for configurations
+registry is vulnerable (can brick system if power cuts during editing)
+
+no path, no grep, and no built in auditing
+
+---------------------------------------
+
+os and security
+trusted computing base (TCB)
+the os acts as a gatekeper between subjects (users, processes) and objects (files, hardware)
+authenticatin: needs to check: who is running the process, 
+autorization: and are they allowed to perform the action.
+every access needs to be checked (usually done throug systemcalls)
+principle of complete mitigation
+
+------------------------------------
+
+authentication
+identification: cleiming an identity (username)
+verification: proving it (password, biometric, key)
+
+secure storage:
+rule 1: the os never stores the passwords in plain text
+hashing: the os stores a cryptographic hash of the password.
+- on login: inputhash = hash(userinput)
+- if inputhash ==  stored password hash, access is granted
+
+cryptographic hash cannot be easily reversed
+
+-------------------------------------
+
+access controll
+once authenticated, the os uses a user id (uid) to enforce permissions
+(DAC) Discressionary access controll
+the owner of the file decides permissions
+such as chmod
+risk: malware running as user can edit permissions
+
+(MAC) Mandatory access controll
+system policy decides permissions
+even root doesnt have full permission
+
+--------------------------------
+
+principle of least privilage
+a process shoud only have the absolute minium privilage neccecary
+
+why:
+it limits the blast radius of an attack
+if a calculator app is hacked it cannot access other data
+
+-----------------------------------
+
+system logs
+a high level textual record of events
+failed logins, sudo usage, crashes, service output. etc
+
+location:
+linux text files under /var/log/ and the binary systemd journal
+macOS the unified log and some text files in /var/log/
+windows event viewer - one .evtx per channel in %%\\\
+
+not everything is logged by default,
+
+system auditing (kernel level)
+expensive: creates a lot of logs
+hooks into the kernel to track system calls (can see if files are read or changed)
+reqired by PCI-DSS, HIPAA for strict comliance
+
+FIM file integrity monitoring
+threat: attacker replacng system binaries with trojan horses
+defence: calculate hecksums of critical files and check for changes
+if the hash of the login the os triggers an alarm
+
+-------------------------------------
+
+reading logs
+
+--------------------------------------
+
+enabling system auditing
+
+-------------------------------------
+--------------------------------------
+
+common vulnerabilities and exploits in OS
+os is part of the protected computer base
+
+memory safety:
+buffer overflow: C/C++ allowing direct memory manipulation without bound checking
+ususlly results in a segfault, but may modify memory of other preceses.
+a malicious actor may find ways to exploit this.
+fix: allways check memory bounds and user input.
+A[9] -> assembly +9 to the index
+
+memory safety
+the flaw
+ a program allocates a fixed buffer
+the os/program fails to check input size allowing writes past the buffer end.
+
+the expliot
+attacket overflws the stack to overwrite the return address
+cpu jumps to malicious code (shellcode) instead of returning to the main function
+
+mitigation
+ASLR randomize mrmory layout so addresses are hard to guess
+DEP/NX marks stack memory as "non executable"
+
+--------------------------------------------
+
+race conditions
+the OS multitasks so a gap exists between checking file permissions and using it.
+check: OS confirms user can write to tmp.txt
+The gap: within the gap the user swaps the txt file with a symbolic linc (for example to a password file)
+use: OS resumes and gives access to the wrong file
+fix: minimize the gap so it cant be exploited
+
+---------------------------------------------
+
+command injection
+flaw: passing unsanitised user input directly to a system command
+the input gets expanded and potentially run
+demo: rm $filename
+input: file.txt; rm -rf /
+
+double quotes "$input" around filenames so expansion happens within quotes
+double dashes rm -- so anythin after that should be read as a filename, not a flag
+
+------------------------------------------
+
+privilage escalation
+attacker attemts to get an identity with wider rights (higher privilages) usually root
+
+vertical escalation
+reach root from a normal account
+
+
+----------------------------------------
+
+rootkit is malware that install onto the system permanantly
+hides to maintain remote controll over the machine
+
+often used in botnets
+
+can hide by installing itself before a system call
+and filtering the output
+this hides it from the output of ls or ps
+
+--------------------------------------
+
+zero day vulnerabilities
+
+vulnerabilities that the vendor is unnaware of
+0 days to fix
+
+defense: defence in depth, you cannot patch it, so you must trust your other defences, firewalls, principle of least privilage and procedures
+
+----------------------------------------
+
+File permissions
+linux (POSIX model)
+every file is owned by a user and a group - user, groups, others
+three permissions (bits) - read, write, execute - written as octal form or symbolic - (755) or (rwxr-xr-x)
+difficult to give permisions to other users, files can only be assigned to one group.
+ACLs on top: fixes the issue, can give any named user/group its own rights
+
+windows (ACL model)
+14 different writes types
+uses Access Controll Lists, there is no simpler mode underneath
+granular, you can assign distinct permissions to different users / groups
+inheritence, filer heavily inherit rule from parrent folders
+the rights: Full controll, modify, read & execute, list, read, write ...
+
+------------------------------------------
+
+advanced permissions SUID
+set user id, allows a user to execute a file with the permissions of the file owner.
+problem standard users cannot write to the password database
+solution the passwd binary is owned by root and has SUID set
+result when run the process promotes to root temporarily to save changes
+
+risk, if the binary has a bug, then the user may be bale to run anything as root. (first thin an attacker checks for privilage escalation)
+
+((will be relevant for lab 5))
+
+----------------------------------------
+
+see what a user is allowed to do
+sudo -l
+(ALL : ALL) ALL can run anything as anyone but needs a password
+(Root) NOPASSWD can runn specific process without password
+
+find can execute oher commands
+sudo find . -exec /bin/sh \; -quit
+if find is set as NOPASSWD then this can give root access.
+same with vim which can run a shell.
+so (root) NOPASSWD is dangerous
+
+site GTFOBins lists what should not be allowed
+
+sudo vi has too much privilage
+visudo only gives root access to writing to the file, while all text editing is done in userspace
+
+----------------------------------------
+
+further studies
+search through /var/log as root so the admin grants %students ALL=(root)
+
+attacks from outside the cpu
+DMA direct memory acces attacks
+how it works
+why do nether accounts, permissions, or machine
+(bypasses kernel so os cannot check)
+thunderbolt (thunderspy attack)
+what does stop it?
+run a spycheck on your machine to check if its affected, and how to fix it.
